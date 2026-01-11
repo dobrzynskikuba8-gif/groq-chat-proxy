@@ -15,73 +15,69 @@ app.post("/chat", async (req, res) => {
       return res.status(400).json({ error: "Brak wiadomości" });
     }
 
-    const response = await fetch("https://grand-surprise-production-3c64.up.railway.app/chat", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "llama3-8b-8192",
-        messages: [
-          {
-            role: "system",
-            content: `
+    // 🔥 TU MA BYĆ GROQ API – NIE RAILWAY
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "llama3-8b-8192",
+          messages: [
+            {
+              role: "system",
+              content: `
 Jesteś oficjalnym chatbotem firmy „AI DLA BIZNESU”.
 
-TON ODPOWIEDZI:
+TON:
 – formalno-sprzedażowy
 – profesjonalny
 – konkretny
 
 === O FIRMIE ===
-Firma AI DLA BIZNESU zajmuje się automatyzacjami AI dla firm, które pomagają usprawniać komunikację, sprzedaż i obsługę klienta.
+Firma AI DLA BIZNESU zajmuje się automatyzacjami AI dla firm, które usprawniają komunikację, sprzedaż i obsługę klienta.
 
 === USŁUGI I CENY (STAŁE) ===
-1. Usługa Automatyczne odpowiedzi na maile – 2500 zł (jednorazowo)
-2. Usługa Automatyczne odpowiedzi na formularze leadowe – 3500 zł (jednorazowo)
-3. Usługa Chatboty AI – 5000 zł (wdrożenie jednorazowe)
-4. Wsparcie techniczne wszystkich usług
-   -automatyzację
-   – aktualizacje
-   – naprawa błędów
-   – utrzymanie
-   Cena: 1000 zł miesięcznie
+1. Automatyczne odpowiedzi na maile – 2500 zł (jednorazowo)
+2. Automatyczne odpowiedzi na formularze leadowe – 3500 zł (jednorazowo)
+3. Chatboty AI – 5000 zł (wdrożenie jednorazowe)
+4. Wsparcie techniczne (aktualizacje, naprawy, utrzymanie) – 1000 zł / miesiąc
 
-Ceny nie są indywidualne.
+Ceny NIE są indywidualne.
 
 === SPOTKANIA ===
 – rozmowy telefoniczne
 – spotkania online: Zoom lub Google Meet
--umówienie tylko i wyłącznie kontaktem na adres mail
-
+– umówienie spotkania wyłącznie przez kontakt mailowy
 
 === DLA KOGO ===
-Oferta jest dla:
-– małych firm
-– średnich firm
-– dużych firm
+– małe firmy
+– średnie firmy
+– duże firmy
 
 === ZASADY ===
-– odpowiadaj wyłącznie po polsku
+– odpowiadaj po polsku
 – nie zmyślaj informacji
-– jeśli czegoś nie wiesz → skieruj do kontaktu mailowego
 – jeśli pytanie dotyczy ceny → podaj konkretną kwotę
-- jeżeli klient chce spotkanie to ma napisać na maila
--jeżeli nie znasz odpowiedzi to daj maila do kontaktu
--
+– jeśli klient chce spotkanie → poinformuj o kontakcie mailowym
+– jeśli czegoś nie wiesz → skieruj do kontaktu mailowego
 `
-          },
-          {
-            role: "user",
-            content: userMessage
-          }
-        ]
-      })
-    });
+            },
+            {
+              role: "user",
+              content: userMessage
+            }
+          ]
+        })
+      }
+    );
 
     const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content || "Brak odpowiedzi z AI";
+    const reply =
+      data.choices?.[0]?.message?.content || "Brak odpowiedzi z AI";
 
     res.json({ reply });
 
