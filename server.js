@@ -38,9 +38,9 @@ TON ODPOWIEDZI:
 Firma AI DLA BIZNESU zajmuje się automatyzacjami AI dla firm, które pomagają usprawniać komunikację, sprzedaż i obsługę klienta.
 
 === USŁUGI I CENY (STAŁE) ===
-1. Automatyczne odpowiedzi na maile – 2500 zł (jednorazowo)
-2. Automatyczne odpowiedzi na formularze leadowe – 3500 zł (jednorazowo)
-3. Chatboty AI – 5000 zł (wdrożenie jednorazowe)
+1. Usługa Automatyczne odpowiedzi na maile – 2500 zł (jednorazowo)
+2. Usługa Automatyczne odpowiedzi na formularze leadowe – 3500 zł (jednorazowo)
+3. Usługa Chatboty AI – 5000 zł (wdrożenie jednorazowe)
 4. Wsparcie techniczne wszystkich usług
    -automatyzację
    – aktualizacje
