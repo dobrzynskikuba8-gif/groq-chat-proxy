@@ -21,7 +21,7 @@ app.post("/chat", async (req, res) => {
       {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+          "Authorization": `Bearer ${process.env.GROQ_API_KEY=grand-surprise-production-3c64.up.railway.app}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
