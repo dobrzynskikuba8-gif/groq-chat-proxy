@@ -15,7 +15,7 @@ app.post("/chat", async (req, res) => {
       return res.status(400).json({ error: "Brak wiadomości" });
     }
 
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const response = await fetch("https://grand-surprise-production-3c64.up.railway.app", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
