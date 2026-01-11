@@ -1,18 +1,20 @@
 import express from "express";
+import cors from "cors";
+import fetch from "node-fetch";
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 
-// Endpoint do chat
 app.post("/chat", async (req, res) => {
   try {
     const userMessage = req.body.message;
 
     if (!userMessage) {
-      return res.status(400).json({ error: "Brak wiadomości w żądaniu" });
+      return res.status(400).json({ error: "Brak wiadomości" });
     }
 
-    // Wywołanie API Groq Chat
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -26,8 +28,17 @@ app.post("/chat", async (req, res) => {
             role: "system",
             content: `
 Jesteś oficjalnym chatbotem firmy AI DLA BIZNESU.
-Odpowiadasz po polsku, zgodnie z prawdą.
-Jeśli czegoś nie wiesz – kieruj do kontaktu.
+
+Firma oferuje:
+- chatboty AI
+- automatyzację procesów
+- obsługę klienta
+- wsparcie sprzedaży
+
+Zasady:
+- odpowiadaj po polsku
+- odpowiadaj zgodnie z prawdą
+- jeśli nie wiesz → skieruj do kontaktu
 `
           },
           {
@@ -38,24 +49,18 @@ Jeśli czegoś nie wiesz – kieruj do kontaktu.
       })
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      return res.status(response.status).json({ error: errorText });
-    }
-
     const data = await response.json();
+    const reply = data.choices?.[0]?.message?.content || "Brak odpowiedzi";
 
-    // Zwracamy odpowiedź
-    const reply = data.choices?.[0]?.message?.content || "Brak odpowiedzi z API";
     res.json({ reply });
+
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Wystąpił błąd serwera" });
+    res.status(500).json({ error: "Błąd serwera" });
   }
 });
 
-// Start serwera
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server działa na porcie ${PORT}`);
+  console.log("Server działa na porcie " + PORT);
 });
